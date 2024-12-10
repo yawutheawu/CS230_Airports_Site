@@ -1,14 +1,15 @@
 from logging import exception
 import traceback
-from selenium import webdriver  # For browser automation
-from selenium.webdriver import FirefoxOptions as Options
-from selenium.common.exceptions import NoSuchElementException
-from selenium.webdriver.common.keys import Keys  # For keyboard actions
+from selenium import webdriver
+from selenium.common.exceptions import TimeoutException
+from selenium.webdriver.common.by import By
+from selenium.webdriver.firefox.options import Options
+from selenium.webdriver.firefox.service import Service
+from selenium.webdriver.support import expected_conditions as EC
+from selenium.webdriver.support.ui import WebDriverWait
+from webdriver_manager.firefox import GeckoDriverManager
 from selenium.webdriver.common.by import By  # For locating elements
-from selenium.webdriver.support.ui import WebDriverWait  # For waiting for elements to load
-from selenium.webdriver.support import expected_conditions as EC  # For specifying conditions for waiting
 import os # file verifications
-from selenium.webdriver.common.action_chains import ActionChains
 import time  # For adding small delays and timing
 import streamlit as st
 
@@ -26,15 +27,19 @@ try:
     print("Updating Files")
     funcs.resetDir()
     os.chdir("Airport Data")
-    options = Options()
-    options.add_argument("--headless=new")
-    options.add_experimental_option('prefs', {
+    firefoxOptions = Options()
+    firefoxOptions.add_argument("--headless")
+    firefoxOptions.add_experimental_option('prefs', {
             "download.default_directory": os.path.join(os.getcwd(),"Downloads"), #Set directory to save your downloaded files.
             "download.prompt_for_download": False, #Downloads the file without confirmation.
             "download.directory_upgrade": True,
             "plugins.always_open_pdf_externally": True #Disable PDF opening.
             })
-    driver = webdriver.Firefox(options=options)
+    service = Service(GeckoDriverManager().install())
+    driver = webdriver.Firefox(
+            options=firefoxOptions,
+            service=service,
+        )
 
     siteWithLinks = "https://ourairports.com/data/"
 
