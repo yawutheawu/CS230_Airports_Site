@@ -4,3 +4,4 @@ pandas
 pydeck
 numpy
 webdriver_manager
+matplotlib

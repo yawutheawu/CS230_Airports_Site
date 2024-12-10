@@ -3,7 +3,6 @@ import pandas as pd
 import streamlit as st
 import numpy as np
 import io
-import PIL
 import time
 import pydeck
 import json

@@ -4,7 +4,6 @@ import streamlit as st
 import math
 
 import functions as funcs
-from narwhals.selectors import string
 
 #Maykl Yakubovsky
 #A Page that loads comments for an airport
