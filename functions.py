@@ -268,27 +268,22 @@ def getWeather(ICAO):
     from logging import exception
     import traceback
     from selenium import webdriver
-    from selenium.common.exceptions import TimeoutException
-    from selenium.webdriver.common.by import By
-    from selenium.webdriver.firefox.options import Options
-    from selenium.webdriver.firefox.service import Service
-    from selenium.webdriver.support import expected_conditions as EC
-    from selenium.webdriver.support.ui import WebDriverWait
+    from selenium.webdriver.chrome.options import Options
+    from selenium.webdriver.chrome.service import Service
+    from webdriver_manager.chrome import ChromeDriverManager
+    from webdriver_manager.core.os_manager import ChromeType
     from webdriver_manager.firefox import GeckoDriverManager
     from selenium.webdriver.common.by import By  # For locating elements
     try:
-        def installff():
-            os.system('sbase install geckodriver')
-            os.system('ln -s /home/appuser/venv/lib/python3.7/site-packages/seleniumbase/drivers/geckodriver /home/appuser/venv/bin/geckodriver')
-        
-        _ = installff()
+        options = Options()
+        options.add_argument("--disable-gpu")
+        options.add_argument("--headless")
 
-        firefoxOptions = Options()
-        firefoxOptions.add_argument("--headless")
-        service = Service(GeckoDriverManager().install())
-        driver = webdriver.Firefox(
-                options=firefoxOptions,
-                service=service,
+        driver = webdriver.Chrome(
+            service=Service(
+                ChromeDriverManager(chrome_type=ChromeType.CHROMIUM).install()
+            ),
+            options=options,
         )
         driver.get(weatherSite)
         METAR = driver.find_element(By.XPATH,"/html/body/main/div/div[4]/div[1]").text

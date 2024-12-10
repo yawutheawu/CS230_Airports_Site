@@ -134,6 +134,8 @@ python-dateutil
 python-dotenv
 python-json-logger
 pytz
+pywin32
+pywinpty
 pyzmq
 referencing
 requests
