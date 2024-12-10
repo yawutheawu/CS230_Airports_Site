@@ -7,6 +7,8 @@ import time
 import pydeck
 import json
 import math
+from logging import exception
+import traceback
 
 '''
 Maykl Yakubovsky
@@ -198,8 +200,6 @@ def refreshData(sizeFactor = 5):
         OverallStartTime = time.time()
         global data
         st.write("Getting Fresh Files...")
-        from logging import exception
-        import traceback
         from selenium import webdriver
         from selenium.webdriver.chrome.options import Options
         from selenium.webdriver.chrome.service import Service
@@ -207,9 +207,6 @@ def refreshData(sizeFactor = 5):
         from webdriver_manager.core.os_manager import ChromeType
         from webdriver_manager.firefox import GeckoDriverManager
         from selenium.webdriver.common.by import By  # For locating elements
-        import os # file verifications
-        import time  # For adding small delays and timing
-        import streamlit as st
         try:
             print("Updating Files")
             resetDir()
