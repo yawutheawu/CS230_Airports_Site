@@ -1,7 +1,7 @@
 from logging import exception
 import traceback
 from selenium import webdriver  # For browser automation
-from selenium.webdriver.chrome.options import Options
+from selenium.webdriver import FirefoxOptions as Options
 from selenium.common.exceptions import NoSuchElementException
 from selenium.webdriver.common.keys import Keys  # For keyboard actions
 from selenium.webdriver.common.by import By  # For locating elements
@@ -13,8 +13,16 @@ import time  # For adding small delays and timing
 import streamlit as st
 
 import functions as funcs
+
+@st.experimental_singleton
+def installff():
+  os.system('sbase install geckodriver')
+  os.system('ln -s /home/appuser/venv/lib/python3.7/site-packages/seleniumbase/drivers/geckodriver /home/appuser/venv/bin/geckodriver')
+
+
 #[PY3] Error checking with try/except
 try:
+    _ = installff()
     print("Updating Files")
     funcs.resetDir()
     os.chdir("Airport Data")
@@ -26,7 +34,7 @@ try:
             "download.directory_upgrade": True,
             "plugins.always_open_pdf_externally": True #Disable PDF opening.
             })
-    driver = webdriver.Chrome(options=options)
+    driver = webdriver.Firefox(options=options)
 
     siteWithLinks = "https://ourairports.com/data/"
 
