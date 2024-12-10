@@ -266,18 +266,30 @@ def getWeather(ICAO):
     weatherSite = f"https://aviationweather.gov/data/metar/?id={ICAO}&hours=0"
     from logging import exception
     import traceback
-    from selenium import webdriver  # For browser automation
-    from selenium.webdriver.chrome.options import Options
-    from selenium.common.exceptions import NoSuchElementException
-    from selenium.webdriver.common.keys import Keys  # For keyboard actions
+    from selenium import webdriver
+    from selenium.common.exceptions import TimeoutException
+    from selenium.webdriver.common.by import By
+    from selenium.webdriver.firefox.options import Options
+    from selenium.webdriver.firefox.service import Service
+    from selenium.webdriver.support import expected_conditions as EC
+    from selenium.webdriver.support.ui import WebDriverWait
+    from webdriver_manager.firefox import GeckoDriverManager
     from selenium.webdriver.common.by import By  # For locating elements
-    from selenium.webdriver.support.ui import WebDriverWait  # For waiting for elements to load
-    from selenium.webdriver.support import expected_conditions as EC  # For specifying conditions for waiting
-    from selenium.webdriver.common.action_chains import ActionChains
     try:
-        options = Options()
-        options.add_argument("--headless=new")
-        driver = webdriver.Chrome(options=options)
+        @st.experimental_singleton
+        def installff():
+            os.system('sbase install geckodriver')
+            os.system('ln -s /home/appuser/venv/lib/python3.7/site-packages/seleniumbase/drivers/geckodriver /home/appuser/venv/bin/geckodriver')
+        
+        _ = installff()
+
+        firefoxOptions = Options()
+        firefoxOptions.add_argument("--headless")
+        service = Service(GeckoDriverManager().install())
+        driver = webdriver.Firefox(
+                options=firefoxOptions,
+                service=service,
+        )
         driver.get(weatherSite)
         METAR = driver.find_element(By.XPATH,"/html/body/main/div/div[4]/div[1]").text
         driver.quit()
