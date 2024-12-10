@@ -15,6 +15,7 @@ import streamlit as st
 
 import functions as funcs
 
+os.environ['GH_TOKEN'] = st.secrets['GH_TOKEN']
 
 def installff():
   os.system('sbase install geckodriver')

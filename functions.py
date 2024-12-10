@@ -263,6 +263,7 @@ def getComments(AirportCode):
     return comments
 
 def getWeather(ICAO):
+    os.environ['GH_TOKEN'] = st.secrets['GH_TOKEN']
     weatherSite = f"https://aviationweather.gov/data/metar/?id={ICAO}&hours=0"
     from logging import exception
     import traceback

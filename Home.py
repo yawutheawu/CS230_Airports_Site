@@ -4,6 +4,7 @@ import streamlit as st
 
 import functions as funcs
 
+os.environ['GH_TOKEN'] = st.secrets['GH_TOKEN']
 
 #Maykl Yakubovsky
 #A file that acts as a main with a focus on streamlit functionality
